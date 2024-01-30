@@ -3,9 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class TouristSitesPage extends StatelessWidget {
-  final User user; // Agrega esta línea
+  final User user;
 
-  // Agrega este constructor
   const TouristSitesPage({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -27,7 +26,6 @@ class TouristSitesPage extends StatelessWidget {
             return Text('Error: ${snapshot.error}');
           }
 
-          // Procesa los documentos y muestra la información en tu interfaz de usuario
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
               Map<String, dynamic> data =
@@ -38,8 +36,7 @@ class TouristSitesPage extends StatelessWidget {
                   title: Text(data['Nombre']),
                   subtitle: Text(data['Descripción']),
                   leading: Image.network(
-                    data[
-                        'Imagen_url'], // Aquí se utiliza el campo de la URL de la imagen
+                    "${data['Imagen_url']}?alt=media",
                     width: 50,
                     height: 50,
                     fit: BoxFit.cover,
@@ -52,4 +49,10 @@ class TouristSitesPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: TouristSitesPage(user: FirebaseAuth.instance.currentUser!),
+  ));
 }
