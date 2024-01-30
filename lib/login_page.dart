@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'tourist_sites_page.dart'; // Importa la página de TouristSitesPage
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -8,6 +9,17 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+
+    // Método para navegar a la página de TouristSitesPage
+    void navigateToTouristSitesPage() {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              TouristSitesPage(user: FirebaseAuth.instance.currentUser!),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -37,6 +49,9 @@ class LoginPage extends StatelessWidget {
                     email: emailController.text,
                     password: passwordController.text,
                   );
+
+                  // Iniciar sesión exitosa, navegar a la página de sitios turísticos
+                  navigateToTouristSitesPage();
                 } catch (e) {
                   // Maneja errores de inicio de sesión aquí
                   print('Error al iniciar sesión: $e');
